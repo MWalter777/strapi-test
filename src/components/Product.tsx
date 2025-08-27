@@ -10,7 +10,6 @@ const Product = ({ product }: Props) => {
 	const buyProduct = () => {
 		alert('Product purchased!' + product.name);
 	};
-	console.log('Rendering product:', product);
 
 	return (
 		<div className='w-full bg-amber-500'>
