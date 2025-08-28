@@ -18,9 +18,12 @@ const ProductList = () => {
 		return () => {};
 	}, [dispatch]);
 
+	if (status === 'loading') {
+		return <Loading />;
+	}
+
 	return (
 		<div className='grid grid-cols-4 gap-1 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1'>
-			{status === 'loading' && <Loading />}
 			{status === 'failed' && <div>Error: {error}</div>}
 			{filteredProducts.map((product) => (
 				<ErrorBoundary key={product.id}>
