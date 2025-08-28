@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 		price: item.price,
 	}));
 	const session = await stripeClient.checkout.sessions.create({
-		success_url: 'http://localhost:3000/success',
+		success_url: 'https://strapi-test-silk.vercel.app/success',
 		line_items: line_items,
 		//automatic_tax: { enabled: true },
 		metadata: {
