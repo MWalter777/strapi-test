@@ -23,6 +23,24 @@ const Header = ({ onSearch }: Props) => {
 		}
 	};
 
+	const makePayment = async () => {
+		if (checkoutItems.length === 0) return;
+		//call api to make payment
+		const response = await fetch('/api/checkout', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ items: checkoutItems }),
+		});
+		const data = await response.json();
+		console.log('data', data);
+		//redirect to checkout
+		if (data.url) {
+			router.push(data.url);
+		}
+	};
+
 	return (
 		<header className='p-4 bg-blue-500 flex justify-center text-white'>
 			<div className='flex w-10/12 gap-3 items-center justify-between'>
@@ -35,8 +53,9 @@ const Header = ({ onSearch }: Props) => {
 					onChange={handleSearch}
 				/>
 				<button
-					onClick={() => router.push('/checkout')}
-					className='text-white flex gap-1 items-center px-4 py-2 rounded hover:text-gray-200 hover:cursor-pointer'
+					onClick={makePayment}
+					className='text-white flex gap-1 items-center px-4 py-2 rounded hover:text-gray-200 hover:cursor-pointer disabled:text-gray-400 hover:disabled:cursor-not-allowed'
+					disabled={checkoutItems.length === 0}
 				>
 					<span className='font-bold'>{checkoutItems.length}</span>
 					<FaShoppingCart />
