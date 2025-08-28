@@ -1,4 +1,6 @@
+'use client';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import useDebounce from '@/hooks/useDebounce';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useAppSelector } from '@/hooks/reduxHooks';
@@ -10,6 +12,7 @@ type Props = {
 
 const Header = ({ onSearch }: Props) => {
 	const { debounce } = useDebounce();
+	const router = useRouter();
 	const { checkoutItems } = useAppSelector((state) => state.products);
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (onSearch) {
@@ -31,7 +34,10 @@ const Header = ({ onSearch }: Props) => {
 					className='mt-2 p-2 rounded text-white outline-none bg-blue-400 placeholder-white w-2xl'
 					onChange={handleSearch}
 				/>
-				<button className='text-white flex gap-1 items-center px-4 py-2 rounded hover:text-gray-200 hover:cursor-pointer'>
+				<button
+					onClick={() => router.push('/checkout')}
+					className='text-white flex gap-1 items-center px-4 py-2 rounded hover:text-gray-200 hover:cursor-pointer'
+				>
 					<span className='font-bold'>{checkoutItems.length}</span>
 					<FaShoppingCart />
 				</button>
