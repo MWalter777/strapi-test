@@ -1,13 +1,9 @@
 import stripe from 'stripe';
 
-console.log('process.env.STRIPE_SECRET_KEY', process.env.STRIPE_SECRET_KEY);
-const stripeClient = new stripe(
-	'sk_test_51S0wKQHtkbCOOK7qMdXUKuxybHYbuLTDl4zN1ZRJzEvBY4CBMLtl4pl2r3mbY6WlUXU1CDFMzLqB73STlsaaL8wV00kCBmSrvg'
-);
+const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
 	const { items } = await request.json();
-	console.log('items', items);
 	const line_items = items.map((item: any) => ({
 		price_data: {
 			currency: 'usd',
@@ -16,7 +12,7 @@ export async function POST(request: Request) {
 				images: [item.image],
 				description: item.description,
 			},
-			unit_amount: item.price * 100,
+			unit_amount: Math.round(item.price * 100),
 		},
 		quantity: item.quantity,
 	}));
