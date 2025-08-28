@@ -21,6 +21,14 @@ const Product = ({ product }: Props) => {
 					<h3 className='text-xl font-bold mb-4'>{product.name}</h3>
 					<p className='text-gray-700 mb-4'>{product.description}</p>
 					<p className='text-gray-900 font-bold text-lg'>${product.price}</p>
+					{/* product image */}
+					{product.image && (
+						<img
+							src={product.image}
+							alt={product.name}
+							className='w-full h-64 object-cover mt-4 rounded'
+						/>
+					)}
 					<button
 						onClick={buyProduct}
 						className='mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'

@@ -8,7 +8,9 @@ import { ErrorBoundary } from '../ErrorBoundary';
 
 const ProductList = () => {
 	const dispatch = useAppDispatch();
-	const { status, error, products } = useAppSelector((state) => state.products);
+	const { status, error, filteredProducts } = useAppSelector(
+		(state) => state.products
+	);
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());
@@ -19,7 +21,7 @@ const ProductList = () => {
 		<div className='grid grid-cols-4 gap-1 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1'>
 			{status === 'loading' && <Loading />}
 			{status === 'failed' && <div>Error: {error}</div>}
-			{products.map((product) => (
+			{filteredProducts.map((product) => (
 				<ErrorBoundary key={product.id}>
 					<Product product={product} />
 				</ErrorBoundary>
