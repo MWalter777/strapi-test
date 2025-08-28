@@ -1,14 +1,30 @@
 'use client';
-import { ProductType } from '@/types/Product';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import {
+	addItemToCheckout,
+	removeItemFromCheckout,
+} from '@/redux/productSlide';
+import { CartItemType, ProductType } from '@/types/Product';
 import React from 'react';
 
 type Props = {
 	product: ProductType;
+	checkoutItems: CartItemType[];
 };
 
-const Product = ({ product }: Props) => {
-	const buyProduct = () => {
-		throw new Error('Function not implemented.');
+const Product = ({ product, checkoutItems }: Props) => {
+	const dispatch = useAppDispatch();
+
+	const hasStock = () => {
+		return product.stock > 0;
+	};
+
+	const AddProduct = () => {
+		dispatch(addItemToCheckout(product));
+	};
+
+	const removeProduct = () => {
+		dispatch(removeItemFromCheckout(product));
 	};
 
 	return (
@@ -29,12 +45,26 @@ const Product = ({ product }: Props) => {
 							className='w-full h-64 object-cover mt-4 rounded'
 						/>
 					)}
-					<button
-						onClick={buyProduct}
-						className='mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
-					>
-						Buy Now
-					</button>
+					<div className='mt-4 flex items-center gap-2'>
+						{hasStock() ? (
+							<button
+								onClick={AddProduct}
+								className='mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
+							>
+								Add
+							</button>
+						) : (
+							<span className='text-red-600 font-bold'>Out of Stock</span>
+						)}
+						{checkoutItems.some((ci) => ci.id == product.id) && (
+							<button
+								onClick={removeProduct}
+								className='mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-green-700'
+							>
+								remove
+							</button>
+						)}
+					</div>
 				</div>
 			</section>
 		</div>

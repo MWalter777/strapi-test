@@ -5,4 +5,10 @@ export type ProductType = {
 	description: string;
 	price: number;
 	image: string;
+	stock: number;
+};
+
+export type CartItemType = ProductType & {
+	quantity: number;
+	totalPrice: number;
 };

@@ -5,10 +5,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { fetchAllProducts } from '@/redux/thunks/fetchProducts';
 import Loading from '../Loading/Loading';
 import { ErrorBoundary } from '../ErrorBoundary';
+import { ProductType } from '@/types/Product';
 
 const ProductList = () => {
 	const dispatch = useAppDispatch();
-	const { status, error, filteredProducts } = useAppSelector(
+	const { status, error, filteredProducts, checkoutItems } = useAppSelector(
 		(state) => state.products
 	);
 
@@ -23,7 +24,7 @@ const ProductList = () => {
 			{status === 'failed' && <div>Error: {error}</div>}
 			{filteredProducts.map((product) => (
 				<ErrorBoundary key={product.id}>
-					<Product product={product} />
+					<Product checkoutItems={checkoutItems} product={product} />
 				</ErrorBoundary>
 			))}
 		</div>

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchAllProducts } from './thunks/fetchProducts';
-import { ProductType } from '@/types/Product';
+import { CartItemType, ProductType } from '@/types/Product';
 
 type ProductState = {
 	products: ProductType[];
 	filteredProducts: ProductType[];
+	checkoutItems: CartItemType[];
 	status: 'idle' | 'loading' | 'succeeded' | 'failed';
 	error: string | null;
 };
@@ -12,6 +13,7 @@ type ProductState = {
 const initialState: ProductState = {
 	products: [],
 	filteredProducts: [],
+	checkoutItems: [],
 	status: 'idle',
 	error: null,
 };
@@ -42,11 +44,53 @@ export const productSlice = createSlice({
 				product.name.toLowerCase().includes(query)
 			);
 		},
+		addItemToCheckout: (state, action) => {
+			const newItem = action.payload;
+			const existingItem = state.checkoutItems.find(
+				(item) => item.id === newItem.id
+			);
+			if (existingItem) {
+				existingItem.quantity += 1;
+			} else {
+				state.checkoutItems.push({
+					...newItem,
+					quantity: 1,
+					totalPrice: newItem.price,
+				});
+			}
+			// Decrease stock in products array
+			const product = state.filteredProducts.find((p) => p.id === newItem.id);
+			console.log(product?.stock);
+			if (product && product.stock > 0) {
+				product.stock -= 1;
+			}
+		},
+		removeItemFromCheckout: (state, action) => {
+			const itemId = action.payload;
+			const item = state.checkoutItems.filter((ci) => ci.id == itemId.id);
+			if (item) {
+				state.checkoutItems = state.checkoutItems.flatMap((ci) => {
+					if (ci.id === itemId.id) {
+						if (ci.quantity === 1) {
+							return [];
+						}
+						return { ...ci, quantity: ci.quantity - 1 };
+					}
+					return ci;
+				});
+				// Increase stock in products array
+				const product = state.filteredProducts.find((p) => p.id === itemId);
+				if (product) {
+					product.stock += 1;
+				}
+			}
+		},
 	},
 });
 
 // Action creators are generated for each case reducer function
 
-export const { findProductsByName } = productSlice.actions;
+export const { findProductsByName, addItemToCheckout, removeItemFromCheckout } =
+	productSlice.actions;
 
 export default productSlice.reducer;
