@@ -1,11 +1,14 @@
 'use client';
 import { useAppDispatch } from '@/hooks/reduxHooks';
+import { FaCartPlus } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 import {
 	addItemToCheckout,
 	removeItemFromCheckout,
 } from '@/redux/productSlide';
 import { CartItemType, ProductType } from '@/types/Product';
 import React from 'react';
+import AddButtons from '../AddButtons';
 
 type Props = {
 	product: ProductType;
@@ -15,11 +18,7 @@ type Props = {
 const Product = ({ product, checkoutItems }: Props) => {
 	const dispatch = useAppDispatch();
 
-	const hasStock = () => {
-		return product.stock > 0;
-	};
-
-	const AddProduct = () => {
+	const addProduct = () => {
 		dispatch(addItemToCheckout(product));
 	};
 
@@ -28,8 +27,8 @@ const Product = ({ product, checkoutItems }: Props) => {
 	};
 
 	return (
-		<div className='w-full bg-amber-500'>
-			<section className='max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
+		<div className='w-full'>
+			<section className='p-1 sm:px-6 lg:px-8'>
 				<h2 className='text-3xl font-extrabold text-white mb-6'>
 					{product.title}
 				</h2>
@@ -46,24 +45,12 @@ const Product = ({ product, checkoutItems }: Props) => {
 						/>
 					)}
 					<div className='mt-4 flex items-center gap-2'>
-						{hasStock() ? (
-							<button
-								onClick={AddProduct}
-								className='mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'
-							>
-								Add
-							</button>
-						) : (
-							<span className='text-red-600 font-bold'>Out of Stock</span>
-						)}
-						{checkoutItems.some((ci) => ci.id == product.id) && (
-							<button
-								onClick={removeProduct}
-								className='mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-green-700'
-							>
-								remove
-							</button>
-						)}
+						<AddButtons
+							addProduct={addProduct}
+							checkoutItems={checkoutItems}
+							product={product}
+							removeProduct={removeProduct}
+						/>
 					</div>
 				</div>
 			</section>

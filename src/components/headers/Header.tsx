@@ -1,12 +1,7 @@
-import useDebounce from '@/hooks/useDebounce';
 import React from 'react';
-/**
-para renunciar, nombre completo, dui y firma... a nombre de focus el salvador
-a generalista
-
-Carta de recomendaciones, podemos poner a Monica Montes Navarro como referencia
-
-*/
+import useDebounce from '@/hooks/useDebounce';
+import { FaShoppingCart } from 'react-icons/fa';
+import { useAppSelector } from '@/hooks/reduxHooks';
 
 type Props = {
 	// search function
@@ -15,6 +10,7 @@ type Props = {
 
 const Header = ({ onSearch }: Props) => {
 	const { debounce } = useDebounce();
+	const { checkoutItems } = useAppSelector((state) => state.products);
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (onSearch) {
 			debounce(() => {
@@ -35,6 +31,10 @@ const Header = ({ onSearch }: Props) => {
 					className='mt-2 p-2 rounded text-white outline-none bg-blue-400 placeholder-white w-2xl'
 					onChange={handleSearch}
 				/>
+				<button className='text-white flex gap-1 items-center px-4 py-2 rounded hover:text-gray-200 hover:cursor-pointer'>
+					<span className='font-bold'>{checkoutItems.length}</span>
+					<FaShoppingCart />
+				</button>
 			</div>
 		</header>
 	);

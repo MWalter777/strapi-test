@@ -60,17 +60,16 @@ export const productSlice = createSlice({
 			}
 			// Decrease stock in products array
 			const product = state.filteredProducts.find((p) => p.id === newItem.id);
-			console.log(product?.stock);
 			if (product && product.stock > 0) {
 				product.stock -= 1;
 			}
 		},
 		removeItemFromCheckout: (state, action) => {
-			const itemId = action.payload;
-			const item = state.checkoutItems.filter((ci) => ci.id == itemId.id);
+			const itemId = action.payload.id;
+			const item = state.checkoutItems.find((ci) => ci.id == itemId);
 			if (item) {
 				state.checkoutItems = state.checkoutItems.flatMap((ci) => {
-					if (ci.id === itemId.id) {
+					if (ci.id === itemId) {
 						if (ci.quantity === 1) {
 							return [];
 						}
