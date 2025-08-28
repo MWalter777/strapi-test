@@ -1,10 +1,12 @@
+import { CartItemType, ProductType } from '@/types/Product';
 import stripe from 'stripe';
 
 const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY!);
+type RequestBody = { items: CartItemType[] };
 
 export async function POST(request: Request) {
-	const { items } = await request.json();
-	const line_items = items.map((item: any) => ({
+	const { items }: RequestBody = await request.json();
+	const line_items = items.map((item) => ({
 		price_data: {
 			currency: 'usd',
 			product_data: {
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
 		},
 		quantity: item.quantity,
 	}));
-	const products = items.map((item: any) => ({
+	const products = items.map((item) => ({
 		productId: item.id,
 		quantity: item.quantity,
 		price: item.price,

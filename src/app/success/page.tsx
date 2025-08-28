@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const page = () => {
+const Success = () => {
 	const router = useRouter();
 
 	const handleGoHome = () => {
@@ -30,4 +30,4 @@ const page = () => {
 	);
 };
 
-export default page;
+export default Success;

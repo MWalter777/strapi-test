@@ -2,7 +2,7 @@
 import { useAppSelector } from '@/hooks/reduxHooks';
 import React from 'react';
 
-const checkout = () => {
+const Checkout = () => {
 	const { checkoutItems } = useAppSelector((state) => state.products);
 	return (
 		<div>
@@ -17,4 +17,4 @@ const checkout = () => {
 	);
 };
 
-export default checkout;
+export default Checkout;

@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { fetchAllProducts } from '@/redux/thunks/fetchProducts';
 import Loading from '../Loading/Loading';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { ProductType } from '@/types/Product';
 
 const ProductList = () => {
 	const dispatch = useAppDispatch();

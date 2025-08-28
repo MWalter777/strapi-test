@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Header from './Header';
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { useAppDispatch } from '@/hooks/reduxHooks';
 import { findProductsByName } from '@/redux/productSlide';
 
 const HeaderSearch = () => {

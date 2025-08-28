@@ -1,7 +1,5 @@
 'use client';
 import { useAppDispatch } from '@/hooks/reduxHooks';
-import { FaCartPlus } from 'react-icons/fa';
-import { FaTrashAlt } from 'react-icons/fa';
 import {
 	addItemToCheckout,
 	removeItemFromCheckout,
