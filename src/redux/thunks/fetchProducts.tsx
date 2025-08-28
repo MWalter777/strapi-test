@@ -38,11 +38,8 @@ const products: ProductType[] = [
 export const fetchAllProducts = createAsyncThunk<ProductType[]>(
 	'products/fetchAll',
 	async () => {
-		console.log('Fetching products...');
 		// Simulate an API call with a delay
 		await new Promise((resolve) => setTimeout(resolve, 5000));
-		throw new Error('Simulated fetch error');
-		console.log('Products fetched:', products);
 		return products;
 	}
 );

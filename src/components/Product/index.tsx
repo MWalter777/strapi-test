@@ -8,7 +8,7 @@ type Props = {
 
 const Product = ({ product }: Props) => {
 	const buyProduct = () => {
-		alert('Product purchased!' + product.name);
+		throw new Error('Function not implemented.');
 	};
 
 	return (

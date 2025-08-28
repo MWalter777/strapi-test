@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
-import Product from './Product';
+import Product from '../Product';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { fetchAllProducts } from '@/redux/thunks/fetchProducts';
-import Loading from './Loading/Loading';
+import Loading from '../Loading/Loading';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 const ProductList = () => {
 	const dispatch = useAppDispatch();
@@ -19,7 +20,9 @@ const ProductList = () => {
 			{status === 'loading' && <Loading />}
 			{status === 'failed' && <div>Error: {error}</div>}
 			{products.map((product) => (
-				<Product product={product} key={product.id} />
+				<ErrorBoundary key={product.id}>
+					<Product product={product} />
+				</ErrorBoundary>
 			))}
 		</div>
 	);
